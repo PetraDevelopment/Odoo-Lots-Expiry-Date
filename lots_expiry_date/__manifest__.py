@@ -23,6 +23,7 @@
     ],
           'images': ['static/description/banner.png'],
     'application': True,
+     'license': 'AGPL-3',
      'price':10,
       'currency':'USD',
 }
