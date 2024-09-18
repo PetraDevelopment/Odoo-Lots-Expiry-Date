@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="group_show_lots_expiry_date" model="res.groups">
+      <field name="name">Show Lots/Serial Expiry Date</field>
+     
+    </record>
+
+
+
+
+</odoo>
+

@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <record id="stock_production_lot_inherit_form" model="ir.ui.view">
+        <field name="name">stock.production.lot.view.custom</field>
+        <field name="model">stock.production.lot</field>
+        <field name="inherit_id" ref="stock.view_production_lot_form"/>
+        <field name="arch" type="xml">
+
+            <xpath expr="//div[hasclass('oe_title')]" position="inside">
+                        <field name="product_expiry_alert" invisible="1"/>
+                        <span class="badge badge-danger" attrs="{'invisible': [('product_expiry_alert', '=', False)]}">Expiration Alert</span>
+            </xpath>
+
+            <!-- Find the notebook and add a new page for Additional Information -->
+            <xpath expr="//notebook" position="inside">
+                <page string="Dates Information" groups="lots_expiry_date.group_show_lots_expiry_date">
+                    <group>
+                        <group>
+                            <!-- <field name="now_time"/>
+                            <field name="timestamp"/> -->
+                            <field name="use_date"/>
+                            <field name="alert_date"/>
+                        </group>
+                        <group>
+                            <field name="end_life_date"/>
+                        
+                            <field name="removal_date"/>
+                            <field name="expiration_date_out"/>
+                                                    <!-- Only show the message field when expiration_date_out is less than 0 -->
+                      <field name="message" attrs="{'invisible': [('expiration_date_out', '>', 0)]}"/>                        </group>
+                    </group>
+                </page>
+            </xpath>
+        </field>
+    </record>
+
+
+     <record id="stock_production_lot_inherit_tree" model="ir.ui.view">
+        <field name="name">stock.production.lot.view.custom</field>
+        <field name="model">stock.production.lot</field>
+        <field name="inherit_id" ref="stock.view_production_lot_tree"/>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='product_id']" position="after">
+                <!-- Add your new fields or modifications here -->
+                
+                
+                <field name="expiration_date_out" groups="lots_expiry_date.group_show_lots_expiry_date"/>
+                <field name="message" invisible="1" attrs="{'invisible': [('expiration_date_out', '>=', 0)]}" groups="lots_expiry_date.group_show_lots_expiry_date"/>
+            </xpath>
+
+   
+
+
+
+        </field>
+    </record>
+ <!-- <t t-if="get_operation_type=='Purchase'">
+
+       </t> -->
+        <record id="view_stock_move_line_detailed_operation_tree_mrp" model="ir.ui.view">
+    <field name="name">stock.move.line.operations.tree.mrp</field>
+    <field name="model">stock.move.line</field>
+    <field name="inherit_id" ref="stock.view_stock_move_line_operation_tree"/>
+    <field name="arch" type="xml">
+
+   
+        <xpath expr="//field[@name='lot_name']" position="after">
+            <!-- Add your new fields here -->
+            <field name="picking_type_code"  invisible="1"/>
+            <field name="computed_best_before_date" 
+                      groups="lots_expiry_date.group_show_lots_expiry_date" 
+                   attrs="{'invisible': [('picking_type_code', 'not in', ['Receipt', 'incoming'])]}"/>
+            <field name="computed_removal_date" 
+                      groups="lots_expiry_date.group_show_lots_expiry_date" 
+                   attrs="{'invisible': [('picking_type_code', 'not in', ['Receipt', 'incoming'])]}"/>
+            <field name="computed_alert_date" 
+                groups="lots_expiry_date.group_show_lots_expiry_date" 
+                   attrs="{'invisible': [('picking_type_code', 'not in', ['Receipt', 'incoming'])]}"/>
+            <field name="computed_end_life_date" 
+                groups="lots_expiry_date.group_show_lots_expiry_date" 
+                 attrs="{'invisible': [('picking_type_code', 'not in', ['Receipt', 'incoming'])]}"/>
+            <!-- <field name="picking_type_id" /> -->
+            <!-- <field name="partner_name" /> -->
+            <!-- Control visibility based on computed field -->
+        </xpath>
+
+        <xpath expr="//field[@name='computed_end_life_date']" position="attributes">
+
+         <attribute name="attrs">{'invisible': [ ('picking_type_code', 'not in', ['Receipt', 'incoming'])]}</attribute>
+
+          </xpath>
+    
+
+    </field>
+</record>
+
+             
+
+
+   
+
+  </odoo>
+       
+
+       
